@@ -1,0 +1,161 @@
+.course-card-premium {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  gap: 12px;
+  box-shadow: 0 4px 6px rgba(22, 36, 31, 0.01);
+  margin-bottom: 12px;
+}
+
+.course-card-premium:last-child {
+  margin-bottom: 0;
+}
+
+.course-card-premium:hover {
+  border-color: rgba(184, 145, 47, 0.25);
+}
+
+.course-card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.course-card-info-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.course-card-icon-circle {
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  background: #F6F4EC;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.course-card-details-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card-title-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.course-card-trainer-sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+}
+
+.course-card-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.course-card-bar-track {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.course-card-bar-fill {
+  height: 100%;
+  background: var(--color-sidebar);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.course-card-bar-percentage {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+.course-card-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: 10px;
+}
+
+.course-card-last-activity-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.course-card-action-btn {
+  display: inline-block;
+  background: var(--color-sidebar);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.course-card-action-btn:hover {
+  background: var(--color-sidebar-hover);
+  transform: translateY(-0.5px);
+}
+
+/* Status Badges */
+.status-badge-consistent {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.badge-completed {
+  background: #DCFCE7;
+  color: #166534;
+  border-color: #BBF7D0;
+}
+
+.badge-progress {
+  background: #FEF9C3;
+  color: #854D0E;
+  border-color: #FEF08A;
+}
+
+.badge-notstarted {
+  background: #F3F4F6;
+  color: #4B5563;
+  border-color: #E5E7EB;
+}

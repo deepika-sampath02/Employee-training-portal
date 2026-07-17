@@ -1,0 +1,23 @@
+.dashboard-card {
+  @apply flex flex-col bg-white border border-ink/10 rounded-2xl p-6 shadow-sm transition-all duration-300;
+}
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 25px -5px rgba(22, 36, 31, 0.15), 0 10px 10px -5px rgba(22, 36, 31, 0.08);
+  border-color: rgba(184, 145, 47, 0.3);
+}
+.dashboard-card-icon {
+  @apply h-12 w-12 rounded-full flex items-center justify-center text-lg mb-4 transition-transform duration-300;
+}
+.dashboard-card:hover .dashboard-card-icon {
+  transform: scale(1.08);
+}
+.dashboard-card-title {
+  @apply font-body text-xs font-semibold uppercase tracking-wider text-slate;
+}
+.dashboard-card-value {
+  @apply font-display text-3xl font-bold text-ink mt-2;
+}
+.dashboard-card-subtitle {
+  @apply font-body text-[11px] text-slate mt-1;
+}

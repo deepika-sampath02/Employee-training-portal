@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 154" width="100%" height="100%">
+  <defs>
+    <linearGradient id="leadBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E28743"/>
+      <stop offset="100%" stop-color="#1E3D2B"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#leadBg)"/>
+  <!-- Mountain Silhouette -->
+  <polygon points="-50,154 130,50 220,120 340,25 450,154" fill="#132A1D" opacity="0.85"/>
+  <polygon points="20,154 180,65 260,115 350,35 480,154" fill="#0C1D14"/>
+  <!-- Glowing Sun -->
+  <circle cx="350" cy="35" r="22" fill="#FFF" opacity="0.2" filter="blur(4px)"/>
+  <circle cx="350" cy="35" r="14" fill="#FFF" opacity="0.9"/>
+  <!-- Climbers silhouettes -->
+  <!-- Standing climber helping -->
+  <path d="M 336 30 C 336 27, 339 25, 342 25 C 345 25, 348 27, 348 30 C 348 33, 345 35, 342 35 C 339 35, 336 33, 336 30" fill="#FFF"/>
+  <path d="M 342 35 L 340 45 L 332 40 L 324 44 L 324 48" stroke="#FFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 342 35 L 345 44 L 348 51" stroke="#FFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Reaching climber -->
+  <path d="M 314 45 C 314 42.5, 316.5 40.5, 319 40.5 C 321.5 40.5, 324 42.5, 324 45 C 324 47.5, 321.5 49.5, 319 49.5 C 316.5 49.5, 314 47.5, 314 45" fill="#FFF"/>
+  <path d="M 319 49.5 C 319 47.5, 324 44, 324 44 M 319 49.5 L 314 55 L 308 62" stroke="#FFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

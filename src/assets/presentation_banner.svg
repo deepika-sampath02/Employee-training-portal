@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 154" width="100%" height="100%">
+  <defs>
+    <linearGradient id="presBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C6FF"/>
+      <stop offset="100%" stop-color="#0072FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#presBg)"/>
+  <!-- Projection Screen -->
+  <rect x="80" y="16" width="240" height="96" rx="8" fill="#FFF" opacity="0.12"/>
+  <rect x="90" y="24" width="220" height="80" rx="4" fill="#FFF" opacity="0.2"/>
+  <!-- Chart details on screen -->
+  <path d="M 110 80 L 150 48 L 190 65 L 240 32 L 290 55" fill="none" stroke="#FFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="240" cy="32" r="5" fill="#FFF"/>
+  <circle cx="150" cy="48" r="5" fill="#FFF"/>
+  <!-- Presenter outline standing on the right -->
+  <circle cx="330" cy="85" r="7" fill="#FFF"/>
+  <path d="M 315 125 C 315 110, 320 100, 330 100 C 340 100, 345 110, 345 125 L 345 154 L 315 154 Z" fill="#FFF"/>
+  <!-- Presenter pointing arm -->
+  <path d="M 324 103 L 305 92" stroke="#FFF" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Audience silhouettes at bottom -->
+  <path d="M 0 154 C 20 134, 50 134, 70 154 C 90 134, 120 134, 140 154 C 160 134, 190 134, 210 154 C 230 134, 260 134, 280 154 C 300 134, 330 134, 350 154 Z" fill="#13233F" opacity="0.8"/>
+  <path d="M -10 154 C 15 126, 60 126, 85 154 C 110 126, 155 126, 180 154 C 205 126, 250 126, 275 154 C 300 126, 345 126, 370 154 Z" fill="#0A1526"/>
+</svg>
