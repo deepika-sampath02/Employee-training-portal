@@ -1,24 +1,20 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardCard from "../../components/DashboardCard";
 import CourseCard from "../../components/CourseCard";
 import { useCourses } from "../../context/CoursesContext";
 import { useTasks } from "../../context/TasksContext";
-import { 
-  FiClock, 
-  FiAward, 
-  FiBookOpen, 
-  FiCalendar, 
-  FiTrendingUp, 
-  FiAlertCircle 
+import { useAuth } from "../../context/AuthContext";
+import { api } from "../../services/api";
+import {
+  FiClock,
+  FiAward,
+  FiBookOpen,
+  FiCalendar,
+  FiTrendingUp,
+  FiAlertCircle
 } from "react-icons/fi";
 import "./Dashboard.css";
-
-const upcoming = [
-  { title: "Python Q&A & Debugging", date: "14 July 2026", time: "03:00 PM - 04:30 PM", mode: "Live Q&A Class", highlight: true },
-  { title: "React Live Workshop", date: "18 July 2026", time: "10:00 AM - 01:00 PM", mode: "Interactive Live Session" },
-  { title: "SQL Webinar: Joins", date: "22 July 2026", time: "02:00 PM - 04:00 PM", mode: "Live Session" },
-  { title: "Time Management Seminar", date: "25 July 2026", time: "11:00 AM - 01:00 PM", mode: "Online Session" },
-];
 
 const deadlinesData = [
   { title: "Leadership Quiz", course: "Leadership Essentials", dueDate: "Due: 15 July" },
@@ -27,9 +23,41 @@ const deadlinesData = [
   { title: "Communication Explanatory Video", course: "Communication Skills", dueDate: "Due: 22 July" },
 ];
 
+// Turns a session from the API into the shape the panel below displays.
+function formatSession(s, index) {
+  const start = new Date(s.start);
+  const end = new Date(s.end);
+  const time = (d) => d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  return {
+    title: s.title,
+    date: start.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }),
+    time: `${time(start)} - ${time(end)}`,
+    mode: s.session_type,
+    highlight: index === 0,
+  };
+}
+
 export default function Dashboard() {
   const { courses, getPercent, getStatus } = useCourses();
   const { getPendingCount } = useTasks();
+  const { user } = useAuth();
+
+  // Upcoming sessions come from the backend (only the ones this employee is invited to).
+  const [upcoming, setUpcoming] = useState([]);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+    api("/dashboard/")
+      .then((data) => {
+        if (alive) setUpcoming((data?.upcoming_sessions ?? []).map(formatSession));
+      })
+      .catch(() => {})
+      .finally(() => alive && setSessionsLoading(false));
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const activeCount = courses.filter(c => getStatus(c.id) === "In Progress" || getStatus(c.id) === "Not Started").length;
   const completedCount = courses.filter(c => getStatus(c.id) === "Completed").length;
@@ -57,7 +85,7 @@ export default function Dashboard() {
     };
   });
 
-  const userName = "Deepika";
+  const userName = user?.first_name || "there";
   const today = new Date().toLocaleDateString("en-GB", {
     weekday: "long",
     day: "2-digit",
@@ -164,7 +192,7 @@ export default function Dashboard() {
 
       {/* Balanced 2-Column Layout Container */}
       <div className="dash-two-column-layout">
-        
+
         {/* Left Column (65% width): Main Course list, goal cards and featured banner */}
         <div className="dash-main-column space-y-4">
           {/* Motivating Featured banner */}
@@ -256,9 +284,15 @@ export default function Dashboard() {
               <Link to="/dashboard/calendar">View Calendar →</Link>
             </div>
             <div className="dash-training-list">
+              {sessionsLoading && (
+                <p className="font-body text-xs text-slate">Loading sessions...</p>
+              )}
+              {!sessionsLoading && upcoming.length === 0 && (
+                <p className="font-body text-xs text-slate">No upcoming sessions scheduled.</p>
+              )}
               {upcoming.map((item) => (
                 <div
-                  key={item.title}
+                  key={item.title + item.date}
                   className={"dash-training-item" + (item.highlight ? " dash-training-item-highlight" : "")}
                 >
                   <span className="dash-training-icon">📅</span>

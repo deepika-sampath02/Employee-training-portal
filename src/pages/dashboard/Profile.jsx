@@ -1,6 +1,8 @@
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCourses } from "../../context/CoursesContext";
+import { useAuth } from "../../context/AuthContext";
+import { api } from "../../services/api";
 import { 
   FiMail, 
   FiChevronRight, 
@@ -35,7 +37,6 @@ const FlameIcon = ({ size = 20, className = "" }) => (
     <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
   </svg>
 );
-import deepikaProfile from "../../assets/deepika_profile.png";
 import aravindAvatar from "../../assets/aravind_avatar.png";
 import priyaAvatar from "../../assets/priya_avatar.png";
 import "./Profile.css";
@@ -49,25 +50,70 @@ const PythonIcon = () => (
   </svg>
 );
 
-export default function Profile() {
-  const { courses, getPercent } = useCourses();
-  const fileInputRef = useRef(null);
+const ROLE_LABELS = {
+  super_admin: "Super Admin",
+  admin: "HR / Admin",
+  trainer: "Trainer",
+  employee: "Employee",
+};
 
-  // States
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [avatar, setAvatar] = useState(deepikaProfile);
-  const [profileData, setProfileData] = useState({
-    fullName: "Deepika S.",
-    role: "Software Developer",
-    email: "deepika@example.com",
-    employeeId: "EMP1023",
-    department: "Software Development",
+// Builds the profile fields from the logged-in employee (data comes from the backend).
+// Manager / coordinator are still sample values until the backend stores reporting lines.
+function toProfileData(u) {
+  return {
+    fullName: u?.full_name || "",
+    role: u?.designation || ROLE_LABELS[u?.role] || "Employee",
+    email: u?.email || "",
+    employeeId: u?.employee_id || "",
+    department: u?.department || "-",
     manager: "Mr. Aravind",
     managerEmail: "aravind@example.com",
     coordinator: "Ms. Priya",
     coordinatorEmail: "priya@example.com",
-    memberSince: "Jan 2026",
-  });
+    memberSince: u?.joining_date
+      ? new Date(u.joining_date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })
+      : "-",
+  };
+}
+
+function initialsOf(u) {
+  return ((u?.first_name?.[0] || "") + (u?.last_name?.[0] || "")).toUpperCase() || "?";
+}
+
+export default function Profile() {
+  const { courses, getPercent } = useCourses();
+  const { user, updateUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+
+  // States
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [avatar, setAvatar] = useState(user?.photo_url || null);
+  const [profileData, setProfileData] = useState(() => toProfileData(user));
+
+  // Change-password dialog
+  const [showPwModal, setShowPwModal] = useState(false);
+  const [pwForm, setPwForm] = useState({ old_password: "", new_password: "" });
+  const [pwError, setPwError] = useState("");
+  const [pwBusy, setPwBusy] = useState(false);
+
+  // Load the latest details from the server when the page opens.
+  useEffect(() => {
+    let alive = true;
+    api("/auth/me/")
+      .then((fresh) => {
+        if (!alive) return;
+        updateUser(fresh);
+        setProfileData(toProfileData(fresh));
+        setAvatar(fresh.photo_url || null);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [settings, setSettings] = useState({
     notifications: true,
@@ -79,20 +125,67 @@ export default function Profile() {
     fileInputRef.current.click();
   }
 
-  function handleFileChange(e) {
+  async function handleFileChange(e) {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setAvatar(event.target.result);
-      };
-      reader.readAsDataURL(file);
+    e.target.value = "";
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Please choose an image smaller than 2 MB.");
+      return;
+    }
+    try {
+      const form = new FormData();
+      form.append("photo", file);
+      const updated = await api("/auth/me/", { method: "PATCH", body: form });
+      updateUser(updated);
+      setAvatar(updated.photo_url || null);
+    } catch (err) {
+      alert(err.data?.photo?.[0] || err.message || "Could not upload the photo.");
     }
   }
 
-  function handleSaveProfile(e) {
+  async function handleSaveProfile(e) {
     e.preventDefault();
-    setIsEditMode(false);
+    const [first, ...rest] = profileData.fullName.trim().split(/\s+/);
+    setSaving(true);
+    try {
+      const updated = await api("/auth/me/", {
+        method: "PATCH",
+        body: { first_name: first || "", last_name: rest.join(" ") },
+      });
+      updateUser(updated);
+      setProfileData(toProfileData(updated));
+      setIsEditMode(false);
+    } catch (err) {
+      alert(err.message || "Could not save your changes.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleChangePassword(e) {
+    e.preventDefault();
+    setPwError("");
+    setPwBusy(true);
+    try {
+      await api("/auth/change-password/", { method: "POST", body: pwForm });
+      setShowPwModal(false);
+      setPwForm({ old_password: "", new_password: "" });
+      alert("Password updated successfully.");
+    } catch (err) {
+      const d = err.data || {};
+      const first = d.old_password || d.new_password || d.detail;
+      setPwError(Array.isArray(first) ? first.join(" ") : first || err.message);
+    } finally {
+      setPwBusy(false);
+    }
+  }
+
+  function handleLogout() {
+    if (confirm("Are you sure you want to logout?")) {
+      logout();
+      navigate("/login", { replace: true });
+    }
   }
 
   function handleToggleSetting(key) {
@@ -134,7 +227,13 @@ export default function Profile() {
           {/* Profile Card */}
           <div className="profile-panel profile-summary-card text-center hover:shadow-md transition-all duration-300">
             <div className="profile-avatar-wrapper relative inline-block">
-              <img src={avatar} alt="Profile Avatar" className="profile-avatar-img" />
+              {avatar ? (
+                <img src={avatar} alt="Profile Avatar" className="profile-avatar-img" />
+              ) : (
+                <div className="profile-avatar-img flex items-center justify-center bg-forest text-paper text-3xl font-semibold">
+                  {initialsOf(user)}
+                </div>
+              )}
               {/* Online Green indicator dot */}
               <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full bg-forest border-2 border-white"></span>
               
@@ -410,9 +509,9 @@ export default function Profile() {
                     <input
                       type="email"
                       value={profileData.email}
-                      onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                      required
-                      className="border border-gray-200 rounded-xl p-2.5 text-xs focus:border-brass focus:ring-1 focus:ring-brass"
+                      readOnly
+                      disabled
+                      className="border border-gray-200 rounded-xl p-2.5 text-xs bg-gray-50 text-slate cursor-not-allowed"
                     />
                   </div>
                   <div className="form-group flex flex-col text-left">
@@ -420,13 +519,21 @@ export default function Profile() {
                     <input
                       type="text"
                       value={profileData.department}
-                      onChange={(e) => setProfileData({ ...profileData, department: e.target.value })}
-                      className="border border-gray-200 rounded-xl p-2.5 text-xs focus:border-brass focus:ring-1 focus:ring-brass"
+                      readOnly
+                      disabled
+                      className="border border-gray-200 rounded-xl p-2.5 text-xs bg-gray-50 text-slate cursor-not-allowed"
                     />
                   </div>
+                  <p className="text-[10px] text-slate text-left">
+                    Email and department are managed by HR. Contact your administrator to change them.
+                  </p>
                 </div>
-                <button type="submit" className="w-full text-center py-2.5 bg-forest hover:bg-forestDeep text-white rounded-xl font-body text-xs font-bold transition-colors shadow-sm">
-                  Save Personal Info
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="w-full text-center py-2.5 bg-forest hover:bg-forestDeep text-white rounded-xl font-body text-xs font-bold transition-colors shadow-sm disabled:opacity-70"
+                >
+                  {saving ? "Saving..." : "Save Personal Info"}
                 </button>
               </form>
             ) : (
@@ -639,7 +746,7 @@ export default function Profile() {
           </div>
 
           {/* Card 4: Change Password */}
-          <div className="flex flex-col justify-between p-4 bg-white border border-gray-100 rounded-2xl shadow-sm cursor-pointer hover:border-forest/25 min-h-[160px] text-left" onClick={() => alert("Redirecting to password reset...")}>
+          <div className="flex flex-col justify-between p-4 bg-white border border-gray-100 rounded-2xl shadow-sm cursor-pointer hover:border-forest/25 min-h-[160px] text-left" onClick={() => { setPwError(""); setShowPwModal(true); }}>
             <div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-50 text-yellow-600">
@@ -652,13 +759,13 @@ export default function Profile() {
               </p>
             </div>
             <div className="flex items-center justify-between mt-4 pt-2 border-t border-gray-100 w-full">
-              <span className="text-[9px] text-slate font-semibold leading-tight">Last changed:<br />2 Jul 2026</span>
+              <span className="text-[9px] text-slate font-semibold leading-tight">Keep your account<br />secure</span>
               <span className="text-slate font-bold text-sm">→</span>
             </div>
           </div>
 
           {/* Card 5: Logout */}
-          <div className="flex flex-col justify-between p-4 bg-white border border-gray-100 rounded-2xl shadow-sm cursor-pointer hover:border-red-200 min-h-[160px] text-left" onClick={() => { if(confirm("Are you sure you want to logout?")) window.location.href="/"; }}>
+          <div className="flex flex-col justify-between p-4 bg-white border border-gray-100 rounded-2xl shadow-sm cursor-pointer hover:border-red-200 min-h-[160px] text-left" onClick={handleLogout}>
             <div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-red-50 text-red-600">
@@ -677,6 +784,67 @@ export default function Profile() {
 
         </div>
       </div>
+
+      {/* Change Password dialog */}
+      {showPwModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          onClick={() => setShowPwModal(false)}
+        >
+          <form
+            onSubmit={handleChangePassword}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl text-left space-y-4"
+          >
+            <h4 className="font-display text-lg font-semibold text-ink">Change Password</h4>
+            <div className="flex flex-col">
+              <label className="text-[10px] uppercase font-bold text-slate">Current Password</label>
+              <input
+                type="password"
+                required
+                autoComplete="current-password"
+                value={pwForm.old_password}
+                onChange={(e) => setPwForm({ ...pwForm, old_password: e.target.value })}
+                className="border border-gray-200 rounded-xl p-2.5 text-xs"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-[10px] uppercase font-bold text-slate">New Password</label>
+              <input
+                type="password"
+                required
+                minLength={8}
+                autoComplete="new-password"
+                value={pwForm.new_password}
+                onChange={(e) => setPwForm({ ...pwForm, new_password: e.target.value })}
+                className="border border-gray-200 rounded-xl p-2.5 text-xs"
+              />
+              <span className="text-[10px] text-slate mt-1">At least 8 characters, not too common or all numbers.</span>
+            </div>
+            {pwError && (
+              <div role="alert" className="rounded-xl border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-700">
+                {pwError}
+              </div>
+            )}
+            <div className="flex justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setShowPwModal(false)}
+                className="px-4 py-2 border border-gray-200 rounded-xl font-body text-xs font-bold"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={pwBusy}
+                className="px-4 py-2 bg-forest hover:bg-forestDeep text-white rounded-xl font-body text-xs font-bold disabled:opacity-70"
+              >
+                {pwBusy ? "Updating..." : "Update Password"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
     </div>
   );

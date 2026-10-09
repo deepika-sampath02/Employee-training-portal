@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
+import { useAuth } from '../../context/AuthContext'
+import { api } from '../../services/api'
 import './Settings.css'
 
 /* ---------- tiny inline icons (no external icon lib needed) ---------- */
@@ -70,21 +73,92 @@ function Toggle({ checked, onChange, label, desc }) {
 
 /* ---------- main page ---------- */
 export default function Settings() {
+  const { user, updateUser, logout } = useAuth()
+  const navigate = useNavigate()
+  const fileInputRef = useRef(null)
+
   // account
   const [account, setAccount] = useState({
-    employeeId: 'EMP001245',
-    fullName: 'Deepika Sampath Kumar',
-    email: 'deepika@xyzacademy.com',
-    phone: '+91 9876543210',
-    department: 'Artificial Intelligence',
-    designation: 'AI Trainee',
-    location: 'Chennai, Tamil Nadu',
+    employeeId: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    department: '',
+    designation: '',
+    location: '',
   })
+  const [accountSaving, setAccountSaving] = useState(false)
+  const [accountMsg, setAccountMsg] = useState({ type: '', text: '' })
+
+  useEffect(() => {
+    if (user) {
+      setAccount({
+        employeeId: user.employee_id || 'EMP001245',
+        fullName: user.full_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User',
+        email: user.email || '',
+        phone: user.phone || '',
+        department: user.department || 'Artificial Intelligence',
+        designation: user.designation || 'AI Trainee',
+        location: user.location || 'Chennai, Tamil Nadu',
+      })
+    }
+  }, [user])
+
   const updateAccount = (key, value) => setAccount((a) => ({ ...a, [key]: value }))
+
+  const handlePhotoClick = () => {
+    if (fileInputRef.current) fileInputRef.current.click()
+  }
+
+  const handlePhotoChange = async (e) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Please choose an image smaller than 2 MB.')
+      return
+    }
+    try {
+      const form = new FormData()
+      form.append('photo', file)
+      const updated = await api('/auth/me/', { method: 'PATCH', body: form })
+      updateUser(updated)
+      setAccountMsg({ type: 'success', text: 'Profile photo updated successfully.' })
+    } catch (err) {
+      alert(err.data?.photo?.[0] || err.message || 'Could not upload photo.')
+    }
+  }
+
+  const handleSaveAccount = async (e) => {
+    e?.preventDefault()
+    setAccountSaving(true)
+    setAccountMsg({ type: '', text: '' })
+    try {
+      const parts = account.fullName.trim().split(/\s+/)
+      const first = parts[0] || ''
+      const last = parts.slice(1).join(' ')
+      const updated = await api('/auth/me/', {
+        method: 'PATCH',
+        body: {
+          first_name: first,
+          last_name: last,
+          phone: account.phone,
+        },
+      })
+      updateUser(updated)
+      setAccountMsg({ type: 'success', text: 'Account details saved successfully.' })
+    } catch (err) {
+      setAccountMsg({ type: 'error', text: err.message || 'Failed to save account details.' })
+    } finally {
+      setAccountSaving(false)
+    }
+  }
 
   // security
   const [pwd, setPwd] = useState({ current: '', next: '', confirm: '' })
   const [showPwd, setShowPwd] = useState({ current: false, next: false, confirm: false })
+  const [pwdStatus, setPwdStatus] = useState({ type: '', text: '' })
+  const [pwdBusy, setPwdBusy] = useState(false)
 
   // notifications
   const [notifications, setNotifications] = useState({
@@ -118,33 +192,57 @@ export default function Settings() {
   // logout confirm
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
-  const handleSaveAccount = (e) => {
-    e.preventDefault()
-    alert('Account details saved.')
-  }
-
-  const handleChangePassword = (e) => {
-    e.preventDefault()
-    if (!pwd.current || !pwd.next || !pwd.confirm) {
-      alert('Please fill in all password fields.')
-      return
-    }
-    if (pwd.next !== pwd.confirm) {
-      alert('New password and confirm password do not match.')
-      return
-    }
-    alert('Password changed successfully.')
-    setPwd({ current: '', next: '', confirm: '' })
-  }
-
-  const accentColors = ['#2563eb', '#16a34a', '#7c3aed', '#f59e0b', '#dc2626']
-
   const passwordChecks = [
     { label: 'Minimum 8 characters', pass: pwd.next.length >= 8 },
     { label: 'One uppercase letter', pass: /[A-Z]/.test(pwd.next) },
     { label: 'One number', pass: /[0-9]/.test(pwd.next) },
     { label: 'One special character', pass: /[^A-Za-z0-9]/.test(pwd.next) },
   ]
+
+  const handleChangePassword = async (e) => {
+    e?.preventDefault()
+    setPwdStatus({ type: '', text: '' })
+
+    if (!pwd.current || !pwd.next || !pwd.confirm) {
+      setPwdStatus({ type: 'error', text: 'Please fill in all password fields.' })
+      return
+    }
+    if (pwd.next !== pwd.confirm) {
+      setPwdStatus({ type: 'error', text: 'New password and confirm password do not match.' })
+      return
+    }
+
+    const allChecksPassed = passwordChecks.every((c) => c.pass)
+    if (!allChecksPassed) {
+      setPwdStatus({
+        type: 'error',
+        text: 'Please ensure your new password meets all security requirements.',
+      })
+      return
+    }
+
+    setPwdBusy(true)
+    try {
+      await api('/auth/change-password/', {
+        method: 'POST',
+        body: {
+          old_password: pwd.current,
+          new_password: pwd.next,
+        },
+      })
+      setPwdStatus({ type: 'success', text: 'Password changed successfully.' })
+      setPwd({ current: '', next: '', confirm: '' })
+    } catch (err) {
+      const d = err.data || {}
+      const first = d.old_password || d.new_password || d.detail
+      const msg = Array.isArray(first) ? first.join(' ') : first || err.message || 'Failed to change password.'
+      setPwdStatus({ type: 'error', text: msg })
+    } finally {
+      setPwdBusy(false)
+    }
+  }
+
+  const accentColors = ['#2563eb', '#16a34a', '#7c3aed', '#f59e0b', '#dc2626']
 
   return (
     <div className="stg-page">
@@ -162,15 +260,35 @@ export default function Settings() {
         icon="user"
         title="Account Settings"
         desc="Update your personal information"
-        footer={<button className="stg-btn stg-btn-primary" onClick={handleSaveAccount}>Save Changes</button>}
+        footer={
+          <button className="stg-btn stg-btn-primary" onClick={handleSaveAccount} disabled={accountSaving}>
+            {accountSaving ? 'Saving...' : 'Save Changes'}
+          </button>
+        }
       >
+        {accountMsg.text && (
+          <div style={{
+            marginBottom: '14px',
+            padding: '10px 14px',
+            borderRadius: '8px',
+            fontSize: '13px',
+            fontWeight: '500',
+            backgroundColor: accountMsg.type === 'error' ? '#fef2f2' : '#f0fdf4',
+            color: accountMsg.type === 'error' ? '#dc2626' : '#16a34a',
+            border: `1px solid ${accountMsg.type === 'error' ? '#fecaca' : '#bbf7d0'}`,
+          }}>
+            {accountMsg.text}
+          </div>
+        )}
+
         <div className="stg-avatar-row">
-          <div className="stg-avatar">
-            <img src="https://i.pravatar.cc/120?img=47" alt="Profile" />
+          <div className="stg-avatar" onClick={handlePhotoClick} style={{ cursor: 'pointer' }}>
+            <img src={user?.photo_url || "https://i.pravatar.cc/120?img=47"} alt="Profile" />
             <span className="stg-avatar-camera"><Icon path={icons.camera} size={14} /></span>
           </div>
           <div>
-            <button className="stg-btn stg-btn-outline">Change Photo</button>
+            <button type="button" className="stg-btn stg-btn-outline" onClick={handlePhotoClick}>Change Photo</button>
+            <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept="image/*" onChange={handlePhotoChange} />
             <p className="stg-hint">JPG, PNG up to 2MB</p>
           </div>
         </div>
@@ -183,22 +301,16 @@ export default function Settings() {
             <input value={account.employeeId} disabled />
           </Field>
           <Field label="Email Address">
-            <input type="email" value={account.email} onChange={(e) => updateAccount('email', e.target.value)} />
+            <input type="email" value={account.email} disabled />
           </Field>
           <Field label="Phone Number">
             <input value={account.phone} onChange={(e) => updateAccount('phone', e.target.value)} />
           </Field>
           <Field label="Department">
-            <select value={account.department} onChange={(e) => updateAccount('department', e.target.value)}>
-              <option>Artificial Intelligence</option>
-              <option>Data Science</option>
-              <option>Web Development</option>
-              <option>Cloud Computing</option>
-              <option>Cybersecurity</option>
-            </select>
+            <input value={account.department} disabled />
           </Field>
           <Field label="Designation">
-            <input value={account.designation} onChange={(e) => updateAccount('designation', e.target.value)} />
+            <input value={account.designation} disabled />
           </Field>
           <Field label="Location">
             <input value={account.location} onChange={(e) => updateAccount('location', e.target.value)} />
@@ -208,6 +320,21 @@ export default function Settings() {
 
       {/* Security */}
       <Card icon="lock" title="Security Settings" desc="Change your password to keep your account secure">
+        {pwdStatus.text && (
+          <div style={{
+            marginBottom: '14px',
+            padding: '10px 14px',
+            borderRadius: '8px',
+            fontSize: '13px',
+            fontWeight: '500',
+            backgroundColor: pwdStatus.type === 'error' ? '#fef2f2' : '#f0fdf4',
+            color: pwdStatus.type === 'error' ? '#dc2626' : '#16a34a',
+            border: `1px solid ${pwdStatus.type === 'error' ? '#fecaca' : '#bbf7d0'}`,
+          }}>
+            {pwdStatus.text}
+          </div>
+        )}
+
         <div className="stg-grid-2">
           {['current', 'next', 'confirm'].map((key) => (
             <Field
@@ -242,7 +369,9 @@ export default function Settings() {
               ))}
             </ul>
           </div>
-          <button className="stg-btn stg-btn-primary" onClick={handleChangePassword}>Change Password</button>
+          <button className="stg-btn stg-btn-primary" onClick={handleChangePassword} disabled={pwdBusy}>
+            {pwdBusy ? 'Changing...' : 'Change Password'}
+          </button>
         </div>
       </Card>
 
@@ -365,7 +494,7 @@ export default function Settings() {
             <p>Are you sure you want to logout?</p>
             <div className="stg-choice-row">
               <button className="stg-btn stg-btn-outline" onClick={() => setShowLogoutConfirm(false)}>Cancel</button>
-              <button className="stg-btn stg-btn-danger" onClick={() => alert('Logged out (demo).')}>Logout</button>
+              <button className="stg-btn stg-btn-danger" onClick={() => { logout(); navigate('/login', { replace: true }); }}>Logout</button>
             </div>
           </div>
         )}

@@ -1,5 +1,11 @@
-import { createContext, useContext, useState } from "react";
-import coursesData from "../data/coursesData";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
+import { useAuth } from "./AuthContext";
+import bannerMap from "../data/banners";
+
+// Courses now come from the backend: only the courses assigned to the signed-in employee,
+// with that employee's own progress. The functions below keep the same names and behaviour
+// as before, so the other pages don't need to change.
 
 const CoursesContext = createContext(null);
 
@@ -9,8 +15,39 @@ function calcPercent(modules) {
   return Math.round((completed / modules.length) * 100);
 }
 
+// The backend sends a banner key; the image itself lives in the frontend (src/data/banners.js).
+function withBanner(course) {
+  return { ...course, banner: bannerMap[course.bannerKey] || "" };
+}
+
 export function CoursesProvider({ children }) {
-  const [courses, setCourses] = useState(coursesData);
+  const { user } = useAuth();
+  const [courses, setCourses] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState("");
+
+  const reload = useCallback(async () => {
+    setError("");
+    try {
+      const data = await api("/my-courses/");
+      setCourses(data.map(withBanner));
+    } catch (err) {
+      setError(err.message || "Could not load your courses.");
+    } finally {
+      setLoaded(true);
+    }
+  }, []);
+
+  // Load when someone signs in; clear everything when they sign out.
+  useEffect(() => {
+    if (user?.id) {
+      reload();
+    } else {
+      setCourses([]);
+      setLoaded(false);
+      setError("");
+    }
+  }, [user?.id, reload]);
 
   function getCourse(courseId) {
     return courses.find((c) => c.id === courseId);
@@ -34,6 +71,7 @@ export function CoursesProvider({ children }) {
   }
 
   // Marks a module as completed, and unlocks the next module in that course.
+  // The screen updates straight away, then the backend saves it (and re-syncs if that fails).
   function markModuleComplete(courseId, moduleId) {
     setCourses((prev) =>
       prev.map((course) => {
@@ -53,10 +91,15 @@ export function CoursesProvider({ children }) {
         return { ...course, modules };
       })
     );
+
+    api(`/my-courses/${courseId}/modules/${moduleId}/complete/`, { method: "POST" }).catch(() => reload());
   }
 
   const value = {
     courses,
+    coursesLoaded: loaded,
+    coursesError: error,
+    reloadCourses: reload,
     getCourse,
     getModule,
     getPercent,

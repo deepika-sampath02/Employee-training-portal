@@ -1,0 +1,770 @@
+[
+  {
+    "slug": "python-fundamentals",
+    "title": "Python Fundamentals",
+    "trainer_name": "Mr. Aravind",
+    "duration_weeks": 8,
+    "meta": "8 Modules · 6h 30m",
+    "banner_key": "python",
+    "banner_icon": "🐍",
+    "rating": "4.8",
+    "level": "Beginner",
+    "certificate_available": true,
+    "description": "Learn Python programming from the ground up. This course covers variables, loops, functions, object-oriented programming, and file handling through practical examples and assignments.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Introduction",
+        "description": "Configure your local environment and write your first lines of code. Understand the Python ecosystem and compile syntax basic rules.",
+        "video_url": "https://www.youtube.com/embed/rfscVS0vtbw",
+        "notes": "Module 1 notes: intro to Python, setup, and running your first script.",
+        "notes_size": "1.2 MB",
+        "estimated_time": "25 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Understand Python ecosystem & syntax",
+          "Configure local development environment",
+          "Write and execute your first script"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Install & Setup",
+        "assignment_description": "Install Python on your system and set up a local workspace. Create a script that:",
+        "assignment_tasks": [
+          "Prints 'Hello, World!' to the console",
+          "Saves output in a file named hello.py",
+          "Runs successfully from the terminal"
+        ],
+        "assignment_estimated_time": "15 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Variables",
+        "description": "Master string manipulations, integer computations, and floating numbers. Differentiate core structures and handle console inputs.",
+        "video_url": "https://www.youtube.com/embed/cQT33yu9pY8",
+        "notes": "Module 2 notes: variables, data types, and basic operators.",
+        "notes_size": "1.5 MB",
+        "estimated_time": "30 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Declare dynamic variables",
+          "Differentiate core data types",
+          "Use mathematical operators"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Identity Cards",
+        "assignment_description": "Create an identity card generator program in Python that:",
+        "assignment_tasks": [
+          "Asks user for name, age, and role inputs",
+          "Stores input into typed variables",
+          "Formats output using print f-strings"
+        ],
+        "assignment_estimated_time": "20 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "Loops",
+        "description": "Learn how to automate repetitive tasks using for loops, while loops, nested loops, and loop control statements like break and continue.",
+        "video_url": "https://www.youtube.com/embed/94UHCEmprCY",
+        "notes": "Module 3 notes: for loops, while loops, and loop control statements.",
+        "notes_size": "2.4 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Construct 'for' and 'while' loops",
+          "Control loop execution with break & continue",
+          "Avoid infinite execution loops"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Loop Practice",
+        "assignment_description": "Write a Python program using iteration loops that:",
+        "assignment_tasks": [
+          "Prints numbers 1-10 sequentially",
+          "Prints first 10 even numbers",
+          "Uses a while loop structure"
+        ],
+        "assignment_estimated_time": "20 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "current"
+      },
+      {
+        "slug": "m4",
+        "order": 4,
+        "title": "Functions",
+        "description": "Structure modular programming code blocks. Understand positional arguments, scope definitions, and returning multiple properties.",
+        "video_url": "https://www.youtube.com/embed/9Os0o3wzS_I",
+        "notes": "Module 4 notes: defining functions, parameters, and return values.",
+        "notes_size": "1.8 MB",
+        "estimated_time": "35 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Define reusable functions",
+          "Pass parameters & positional arguments",
+          "Return values from functions"
+        ],
+        "due_after_days": 20,
+        "assignment_title": "Summation Calculations",
+        "assignment_description": "Create a modular calculation helper script that:",
+        "assignment_tasks": [
+          "Defines sum, subtract, and multiply functions",
+          "Accepts variable arguments length",
+          "Returns computed totals dynamically"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "locked"
+      },
+      {
+        "slug": "m5",
+        "order": 5,
+        "title": "OOP",
+        "description": "Build custom classes, instantiate object modules, and understand fundamental inheritance designs.",
+        "video_url": "https://www.youtube.com/embed/JeznW_7DlB0",
+        "notes": "Module 5 notes: classes, objects, and basic OOP concepts.",
+        "notes_size": "3.1 MB",
+        "estimated_time": "50 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Create custom classes and objects",
+          "Apply core encapsulation & inheritance",
+          "Understand variable scopes"
+        ],
+        "due_after_days": 25,
+        "assignment_title": "Student Database OOP",
+        "assignment_description": "Establish a student directory class structure that:",
+        "assignment_tasks": [
+          "Defines Student class with name and roll number properties",
+          "Encapsulates grade editing behaviors",
+          "Instantiates multiple student objects"
+        ],
+        "assignment_estimated_time": "40 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "locked"
+      }
+    ]
+  },
+  {
+    "slug": "react-development",
+    "title": "React Development",
+    "trainer_name": "Ms. Priya",
+    "duration_weeks": 6,
+    "meta": "6 Modules · 7h 15m",
+    "banner_key": "react",
+    "banner_icon": "⚛️",
+    "rating": "4.9",
+    "level": "Intermediate",
+    "certificate_available": true,
+    "description": "Master React Development by building responsive single-page applications. Learn modern hooks, state management, component cycles, and clean routing architectures.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Introduction to React",
+        "description": "Learn how the virtual DOM works, compile initial packages using Vite, and write functional JSX templates.",
+        "video_url": "https://www.youtube.com/embed/w7ejDZ8SWv8",
+        "notes": "Module 1 notes: what React is and why it's used.",
+        "notes_size": "1.6 MB",
+        "estimated_time": "30 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Understand Virtual DOM",
+          "Configure scaffolding via Vite",
+          "Deploy basic JSX markup"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Vite App Setup",
+        "assignment_description": "Initialize your first react workspace. Make sure to:",
+        "assignment_tasks": [
+          "Scaffold app using Vite builder",
+          "Clear placeholder components files",
+          "Insert a Custom Header tag in App.jsx"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Components & Props",
+        "description": "Build robust, reusable functional UI elements and pass configuration details dynamically using standard props.",
+        "video_url": "https://www.youtube.com/embed/PHAcAg1lgg8",
+        "notes": "Module 2 notes: building reusable components and passing props.",
+        "notes_size": "2.1 MB",
+        "estimated_time": "45 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Create functional React components",
+          "Pass immutable data via props",
+          "Render list elements dynamically"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "User Profile Cards",
+        "assignment_description": "Build reusable info cards components that:",
+        "assignment_tasks": [
+          "Accept title, avatar URL, and bio description props",
+          "Render inside a responsive CSS grid",
+          "Apply modern shadow card overlays"
+        ],
+        "assignment_estimated_time": "40 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "current"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "State & Events",
+        "description": "Handle mouse events, manage live input text fields, and hook up responsive page states using standard React variables.",
+        "video_url": "https://www.youtube.com/embed/O6P86uwfdR0",
+        "notes": "Module 3 notes: useState and handling events.",
+        "notes_size": "1.9 MB",
+        "estimated_time": "45 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Manage reactive state with useState",
+          "Hook up click & input form events",
+          "Apply state lifecycles"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Interactive Counter",
+        "assignment_description": "Form a state-controlled calculations widget. Include:",
+        "assignment_tasks": [
+          "Increment and decrement actions buttons",
+          "Live validation range checks (e.g. no negative counts)",
+          "A Reset value function handler"
+        ],
+        "assignment_estimated_time": "35 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "locked"
+      },
+      {
+        "slug": "m4",
+        "order": 4,
+        "title": "Hooks",
+        "description": "Connect external APIs, manage lifecycle updates, and optimize side-effects using common hook functions.",
+        "video_url": "https://www.youtube.com/embed/TNhaISOUy6Q",
+        "notes": "Module 4 notes: useEffect and other common hooks.",
+        "notes_size": "2.8 MB",
+        "estimated_time": "60 mins",
+        "difficulty": "Advanced",
+        "objectives": [
+          "Control side-effects using useEffect",
+          "Manage cleanup operations",
+          "Create custom hooks"
+        ],
+        "due_after_days": 20,
+        "assignment_title": "API Dashboard Fetch",
+        "assignment_description": "Construct a dynamic details loader that:",
+        "assignment_tasks": [
+          "Fetches sample data from a public REST API on mount",
+          "Displays a Loading... indicator skeleton block",
+          "Handles network exceptions elegantly"
+        ],
+        "assignment_estimated_time": "50 mins",
+        "assignment_difficulty": "Advanced",
+        "demo_status": "locked"
+      }
+    ]
+  },
+  {
+    "slug": "sql-fundamentals",
+    "title": "SQL Fundamentals",
+    "trainer_name": "Mr. Karthik",
+    "duration_weeks": 5,
+    "meta": "6 Modules · 5h 20m",
+    "banner_key": "sql",
+    "banner_icon": "🗄️",
+    "rating": "4.7",
+    "level": "Beginner",
+    "certificate_available": true,
+    "description": "Learn how to store, query, update, and manage relational databases using SQL. Start with simple filters and work up to multi-table joins and data groupings.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Introduction to SQL",
+        "description": "Explore table rows and columns. Learn to query and filter tables with SELECT and WHERE operators.",
+        "video_url": "https://www.youtube.com/embed/HXV3zeQKqGY",
+        "notes": "Module 1 notes: relational databases and SQL basics.",
+        "notes_size": "1.1 MB",
+        "estimated_time": "20 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Understand database schemas",
+          "Write SELECT & FROM operations",
+          "Filter text columns"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Query Customer List",
+        "assignment_description": "Write SELECT commands that perform database searches to:",
+        "assignment_tasks": [
+          "Retrieve names and emails of all active clients",
+          "Filter rows where status equals Active",
+          "Alias columns for readability"
+        ],
+        "assignment_estimated_time": "15 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Filtering & Sorting",
+        "description": "Sort records with ORDER BY, search ranges with BETWEEN, and limit search records.",
+        "video_url": "https://www.youtube.com/embed/9ylj9NR0Lcg",
+        "notes": "Module 2 notes: WHERE, ORDER BY, and LIMIT.",
+        "notes_size": "1.4 MB",
+        "estimated_time": "30 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Apply operators like AND, OR, NOT",
+          "Sort databases with ORDER BY",
+          "Limit row counts"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Product Range Filter",
+        "assignment_description": "Develop sorting queries that:",
+        "assignment_tasks": [
+          "Select product details priced between $10 and $50",
+          "Sort output price descending",
+          "Limit returned count to top 5 values"
+        ],
+        "assignment_estimated_time": "20 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "Joins",
+        "description": "Merge multiple relational tables using primary and foreign key mapping definitions.",
+        "video_url": "https://www.youtube.com/embed/9yeOJ0ZMUYw",
+        "notes": "Module 3 notes: INNER JOIN, LEFT JOIN, and combining tables.",
+        "notes_size": "2.0 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Form primary to foreign keys",
+          "Merge columns with INNER & LEFT JOIN",
+          "Differentiate table merge types"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Multi-Table Invoicing",
+        "assignment_description": "Write join logic queries that:",
+        "assignment_tasks": [
+          "Link Orders table with Customers details",
+          "Retrieve customer addresses for matching orders",
+          "Include records without orders via LEFT JOIN"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "completed"
+      }
+    ]
+  },
+  {
+    "slug": "communication-skills",
+    "title": "Communication Skills",
+    "trainer_name": "Ms. Devika",
+    "duration_weeks": 3,
+    "meta": "5 Modules · 4h 10m",
+    "banner_key": "communication",
+    "banner_icon": "💬",
+    "rating": "4.6",
+    "level": "Beginner",
+    "certificate_available": true,
+    "description": "Develop the skills to speak clearly, listen actively, and compose professional written communications. Crucial for career advancement in team environments.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Active Listening",
+        "description": "Examine common conversational boundaries and discover affirmation speaking techniques.",
+        "video_url": "https://www.youtube.com/embed/rzsVh8YwZEQ",
+        "notes": "Module 1 notes: the fundamentals of active listening.",
+        "notes_size": "1.0 MB",
+        "estimated_time": "25 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Understand listening barriers",
+          "Apply verbal affirmations",
+          "Engage with paraphrased statements"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Conversational Logs",
+        "assignment_description": "Write a text review log analyzing active dialogs. Ensure to:",
+        "assignment_tasks": [
+          "Note down 3 conversational boundaries encountered",
+          "Suggest paraphrasing solutions for each",
+          "Draft response follow-ups"
+        ],
+        "assignment_estimated_time": "25 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Clear Speaking",
+        "description": "Structure spoken explanations with logical progressions and eliminate conversational fillers.",
+        "video_url": "https://www.youtube.com/embed/HAnw168huqA",
+        "notes": "Module 2 notes: structuring what you say for clarity.",
+        "notes_size": "1.3 MB",
+        "estimated_time": "30 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Structure ideas using introduction, body, and conclusion",
+          "Improve vocabulary pacing",
+          "Reduce filler word usage"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Spoken Pitch Recording",
+        "assignment_description": "Prepare and practice a clear topic pitch. Steps required:",
+        "assignment_tasks": [
+          "Outline a topic using Intro-Body-Conclusion blocks",
+          "Record yourself presenting for 2 minutes",
+          "Verify speaking rate falls under 140 words/min"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "current"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "Email Etiquette",
+        "description": "Compose clear subject titles and write requests that get read and resolved quickly.",
+        "video_url": "https://www.youtube.com/embed/UwYkPu-Qq0M",
+        "notes": "Module 3 notes: writing clear, professional emails.",
+        "notes_size": "1.7 MB",
+        "estimated_time": "35 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Format clear corporate subject lines",
+          "Adopt polite greetings & clear signatures",
+          "State requests succinctly"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Request Drafts",
+        "assignment_description": "Draft 2 professional email messages targeting:",
+        "assignment_tasks": [
+          "A request for timeline extension on a project",
+          "A schedule adjustment check with stakeholders",
+          "Use clear action subject headers"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "locked"
+      }
+    ]
+  },
+  {
+    "slug": "excel-analysis",
+    "title": "Data Analysis with Excel",
+    "trainer_name": "Ms. Rupa",
+    "duration_weeks": 4,
+    "meta": "4 Modules · 3h 45m",
+    "banner_key": "excel",
+    "banner_icon": "📊",
+    "rating": "4.8",
+    "level": "Beginner",
+    "certificate_available": true,
+    "description": "Unlock business data analysis secrets using Microsoft Excel. Build functional dashboards, write robust formulas, and master VLOOKUP, XLOOKUP, and Pivot Tables.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Spreadsheet Basics",
+        "description": "Navigate cells, input numeric records, apply color fills, and organize simple sums operations.",
+        "video_url": "https://www.youtube.com/embed/rwbho0CgEAE",
+        "notes": "Learn formatting, values, basic formulas.",
+        "notes_size": "1.9 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Organize rows and columns",
+          "Format integers and currencies",
+          "Sum and average ranges"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Spreadsheet Budget",
+        "assignment_description": "Build an Excel spreadsheet log that:",
+        "assignment_tasks": [
+          "Lists 10 monthly item expenses",
+          "Sums category totals using basic arithmetic",
+          "Applies accounting cell formats"
+        ],
+        "assignment_estimated_time": "40 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "current"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "VLOOKUP & XLOOKUP",
+        "description": "Link sheets and match customer list IDs to order tables dynamically.",
+        "video_url": "https://www.youtube.com/embed/O7kZ8Z6q1wA",
+        "notes": "Master index lookup and data references.",
+        "notes_size": "2.3 MB",
+        "estimated_time": "50 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Match rows dynamically",
+          "Handle missing values #N/A",
+          "Configure direct references"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Inventory Lookup",
+        "assignment_description": "Establish product lookup references that:",
+        "assignment_tasks": [
+          "Reference prices from an inventory catalog sheet",
+          "Handle missing SKU matches gracefully using XLOOKUP",
+          "Return matching units count"
+        ],
+        "assignment_estimated_time": "45 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "locked"
+      }
+    ]
+  },
+  {
+    "slug": "time-management",
+    "title": "Time Management",
+    "trainer_name": "Mr. Raj",
+    "duration_weeks": 3,
+    "meta": "3 Modules · 2h 30m",
+    "banner_key": "time",
+    "banner_icon": "⏳",
+    "rating": "4.7",
+    "level": "Beginner",
+    "certificate_available": true,
+    "description": "Reclaim your schedule and achieve career outcomes. Learn prioritization tools like Eisenhower, interval focus like Pomodoro, and long-term OKRs setting.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Eisenhower Matrix",
+        "description": "Sort tasks between urgency and importance. Master delegation techniques.",
+        "video_url": "https://www.youtube.com/embed/tT89OZ7TNwc",
+        "notes": "Prioritize urgent vs important tasks.",
+        "notes_size": "1.4 MB",
+        "estimated_time": "30 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Distinguish Urgency and Importance",
+          "Delegate low-priority items",
+          "Eliminate distractions"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Quadrant Sorting",
+        "assignment_description": "Perform quadrant categorization on 12 weekly goals. Steps:",
+        "assignment_tasks": [
+          "List tasks into Eisenhower quadrants",
+          "Identify 3 items for delegation",
+          "Outline 2 items for deletion"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Pomodoro Technique",
+        "description": "Adopt focused working intervals and regulate brief break schedules.",
+        "video_url": "https://www.youtube.com/embed/mNBmG24djoY",
+        "notes": "Learn interval focus and breaking down work.",
+        "notes_size": "1.1 MB",
+        "estimated_time": "25 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Implement 25-minute sprints",
+          "Manage break times and routines",
+          "Track focused cycles"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Interval Sprint Logs",
+        "assignment_description": "Track 4 Pomodoro cycle runs. Logs should detail:",
+        "assignment_tasks": [
+          "Tasks set for each interval",
+          "Distraction points logged",
+          "Break activities conducted"
+        ],
+        "assignment_estimated_time": "25 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "Goal Setting & OKRs",
+        "description": "Adopt organizational planning tools and formulate quarterly key results.",
+        "video_url": "https://www.youtube.com/embed/M_P5m8JspFA",
+        "notes": "Define quarterly key results and metrics.",
+        "notes_size": "1.7 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Draft Objectives & Key Results",
+          "Benchmark goal outcomes",
+          "Review targets weekly"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Quarterly OKR Draft",
+        "assignment_description": "Create an OKR sheet for personal development. Make sure to:",
+        "assignment_tasks": [
+          "Draft 3 objective statements",
+          "Formulate 3 key results for each objective",
+          "Design metrics checkpoints"
+        ],
+        "assignment_estimated_time": "30 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "current"
+      }
+    ]
+  },
+  {
+    "slug": "leadership-essentials",
+    "title": "Leadership Essentials",
+    "trainer_name": "Mr. Thomas",
+    "duration_weeks": 5,
+    "meta": "5 Modules · 4h 30m",
+    "banner_key": "leadership",
+    "banner_icon": "🤝",
+    "rating": "4.8",
+    "level": "Intermediate",
+    "certificate_available": true,
+    "description": "Transition from manager to inspiring leader. Understand situational coaching styles, active feedback mechanisms, and organizational vision-casting.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Situational Leadership",
+        "description": "Assess team maturities and adapt leadership styles from coaching to delegating.",
+        "video_url": "https://www.youtube.com/embed/b5Z354q5m6c",
+        "notes": "Adapting leadership styles to team maturity levels.",
+        "notes_size": "2.1 MB",
+        "estimated_time": "45 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Analyze team maturity metrics",
+          "Toggle between directing, coaching, supporting, delegating",
+          "Build trust scales"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Leadership Profiles",
+        "assignment_description": "Perform leader matching profiling for 4 team members. Steps:",
+        "assignment_tasks": [
+          "Log task maturity ranks for each member",
+          "Assign coaching or delegating profiles",
+          "Detail feedback schedules"
+        ],
+        "assignment_estimated_time": "45 mins",
+        "assignment_difficulty": "Medium",
+        "demo_status": "current"
+      }
+    ]
+  },
+  {
+    "slug": "presentation-skills",
+    "title": "Presentation Skills",
+    "trainer_name": "Ms. Shalini",
+    "duration_weeks": 4,
+    "meta": "4 Modules · 3h 0m",
+    "banner_key": "presentation",
+    "banner_icon": "📢",
+    "rating": "4.9",
+    "level": "Intermediate",
+    "certificate_available": true,
+    "description": "Design slides that hold attention, conquer public speaking anxiety, pace yourself, and handle tough corporate Q&A panels smoothly.",
+    "modules": [
+      {
+        "slug": "m1",
+        "order": 1,
+        "title": "Slide Design",
+        "description": "Optimize slide text spacing and use clean modular patterns.",
+        "video_url": "https://www.youtube.com/embed/Hp7Id3Yb9yQ",
+        "notes": "Creating minimal slides, visual hierarchy, avoiding walls of text.",
+        "notes_size": "2.0 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Beginner",
+        "objectives": [
+          "Select modern typeface pairings",
+          "Establish visual focal points",
+          "Limit lists to 3 core bullets"
+        ],
+        "due_after_days": 5,
+        "assignment_title": "Scaffolding Pitch Slides",
+        "assignment_description": "Design a slide outline of 5 pages. Include:",
+        "assignment_tasks": [
+          "A headline banner slide",
+          "A problem description list",
+          "A visual metrics dashboard mock representation"
+        ],
+        "assignment_estimated_time": "40 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m2",
+        "order": 2,
+        "title": "Public Speaking Presence",
+        "description": "Adopt pacing models and master posture control during high-pressure keynotes.",
+        "video_url": "https://www.youtube.com/embed/i5mYphUoOCs",
+        "notes": "Voice modulation, body language, and pacing.",
+        "notes_size": "1.6 MB",
+        "estimated_time": "35 mins",
+        "difficulty": "Intermediate",
+        "objectives": [
+          "Apply strategic silence and pauses",
+          "Project voice without strain",
+          "Engage with eye sweeps"
+        ],
+        "due_after_days": 10,
+        "assignment_title": "Speaking Pacing Recording",
+        "assignment_description": "Submit a practice video review. Make sure to:",
+        "assignment_tasks": [
+          "Record 3 minutes of slide presentation",
+          "Incorporate strategic pauses",
+          "Maintain open posture positioning"
+        ],
+        "assignment_estimated_time": "35 mins",
+        "assignment_difficulty": "Easy",
+        "demo_status": "completed"
+      },
+      {
+        "slug": "m3",
+        "order": 3,
+        "title": "Handling QA Sessions",
+        "description": "Manage timeline constraints during follow-ups and reply with composure.",
+        "video_url": "https://www.youtube.com/embed/d3W47z9A814",
+        "notes": "Dealing with difficult questions, maintaining composure.",
+        "notes_size": "1.8 MB",
+        "estimated_time": "40 mins",
+        "difficulty": "Advanced",
+        "objectives": [
+          "De-escalate aggressive query phrasings",
+          "Defer unanswered checks politely",
+          "Maintain positive posture"
+        ],
+        "due_after_days": 15,
+        "assignment_title": "Q&A Responses Draft",
+        "assignment_description": "Draft answers addressing common stakeholder criticisms. Detail responses to:",
+        "assignment_tasks": [
+          "Budget scaling concerns",
+          "Timeline buffer requests",
+          "Quality metric exceptions"
+        ],
+        "assignment_estimated_time": "40 mins",
+        "assignment_difficulty": "Advanced",
+        "demo_status": "completed"
+      }
+    ]
+  }
+]

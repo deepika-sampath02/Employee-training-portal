@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCourses } from "../../context/CoursesContext";
+import { useAuth } from "../../context/AuthContext";
 import "./Certificates.css";
 
 export default function Certificates() {
   const { courses, getPercent } = useCourses();
+  const { user } = useAuth();
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [downloadingId, setDownloadingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -280,7 +282,7 @@ export default function Certificates() {
                 <h4 className="cert-modal-heading">CERTIFICATE OF COMPLETION</h4>
                 
                 <p className="cert-modal-subtext">This certifies that</p>
-                <h2 className="cert-modal-recipient">Deepika S.</h2>
+                <h2 className="cert-modal-recipient">{user?.full_name || "Employee"}</h2>
                 <p className="cert-modal-subtext">has successfully completed all module assessments for</p>
                 <h3 className="cert-modal-course-title">{selectedCourse.title}</h3>
                 

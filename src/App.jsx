@@ -21,36 +21,45 @@ import Support from './pages/dashboard/Support'
 
 import { CoursesProvider } from './context/CoursesContext'
 import { TasksProvider } from './context/TasksContext'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
+import DataGate from './components/DataGate'
 
 export default function App() {
   return (
-    <CoursesProvider>
-      <TasksProvider>
-        <Routes>
-          {/* Public site — keeps your Navbar + Footer */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
+    <AuthProvider>
+      <CoursesProvider>
+        <TasksProvider>
+          <Routes>
+            {/* Public site — keeps your Navbar + Footer */}
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
 
-          {/* Dashboard — uses Sidebar + Topbar instead */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="my-courses" element={<MyCourses />} />
-            <Route path="course/:courseId" element={<CourseDetails />} />
-            <Route path="course/:courseId/module/:moduleId" element={<Lesson />} />
-            <Route path="my-tasks" element={<MyTasks />} />
-            <Route path="my-tasks/:taskId" element={<TaskDetails />} />
-            <Route path="progress" element={<Progress />} />
-            <Route path="certificates" element={<Certificates />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="support" element={<Support />} />
-          </Route>
-        </Routes>
-      </TasksProvider>
-    </CoursesProvider>
+            {/* Dashboard — only for signed-in employees, shown once their data has loaded */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<DataGate />}>
+                <Route path="/dashboard" element={<DashboardLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="my-courses" element={<MyCourses />} />
+                  <Route path="course/:courseId" element={<CourseDetails />} />
+                  <Route path="course/:courseId/module/:moduleId" element={<Lesson />} />
+                  <Route path="my-tasks" element={<MyTasks />} />
+                  <Route path="my-tasks/:taskId" element={<TaskDetails />} />
+                  <Route path="progress" element={<Progress />} />
+                  <Route path="certificates" element={<Certificates />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="support" element={<Support />} />
+                </Route>
+              </Route>
+            </Route>
+          </Routes>
+        </TasksProvider>
+      </CoursesProvider>
+    </AuthProvider>
   )
 }
